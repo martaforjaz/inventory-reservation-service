@@ -1,0 +1,62 @@
+[
+  {
+    "rows": 1,
+    "clients": 32,
+    "requests": 450,
+    "requests_per_second": 1144.2,
+    "p95_ms": 64.6,
+    "samples": 27,
+    "samples_with_update_locks": 26,
+    "peak_waiting_updates": 26
+  },
+  {
+    "rows": 32,
+    "clients": 32,
+    "requests": 450,
+    "requests_per_second": 2726.6,
+    "p95_ms": 16.6,
+    "samples": 4,
+    "samples_with_update_locks": 0,
+    "peak_waiting_updates": 0
+  },
+  {
+    "rows": 32,
+    "clients": 32,
+    "requests": 450,
+    "requests_per_second": 2346.9,
+    "p95_ms": 18.1,
+    "samples": 6,
+    "samples_with_update_locks": 0,
+    "peak_waiting_updates": 0
+  },
+  {
+    "rows": 1,
+    "clients": 32,
+    "requests": 450,
+    "requests_per_second": 1212.6,
+    "p95_ms": 61.6,
+    "samples": 28,
+    "samples_with_update_locks": 28,
+    "peak_waiting_updates": 26
+  },
+  {
+    "rows": 1,
+    "clients": 32,
+    "requests": 450,
+    "requests_per_second": 1098.0,
+    "p95_ms": 72.2,
+    "samples": 28,
+    "samples_with_update_locks": 28,
+    "peak_waiting_updates": 28
+  },
+  {
+    "rows": 32,
+    "clients": 32,
+    "requests": 450,
+    "requests_per_second": 2166.7,
+    "p95_ms": 21.6,
+    "samples": 1,
+    "samples_with_update_locks": 0,
+    "peak_waiting_updates": 0
+  }
+]

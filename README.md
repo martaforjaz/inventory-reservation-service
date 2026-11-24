@@ -33,6 +33,14 @@ Single-SKU workload with 450 reservation requests per configuration, after a war
 
 At 32 clients, tail latency rose without a throughput gain. The workload intentionally targets one stock row, making database contention a candidate for follow-up profiling. The benchmark does not isolate the cause or measure cloud capacity. See [raw results](results.json).
 
+## Investigating PostgreSQL lock contention
+
+Run `python profile_contention.py` with Docker Compose running. Each trial sends 450 reservations with 32 concurrent clients. The script alternates between sending all requests to one stock row and distributing them across 32 independent SKUs. It samples active PostgreSQL sessions to count stock updates waiting on locks and verifies inventory before and after cancellation.
+
+Across three trials per configuration, median p95 latency was **64.6 ms** for one SKU and **18.1 ms** for 32 SKUs. PostgreSQL showed stock updates waiting on locks in **82 of 83** samples in the one-SKU trials, with up to **28 updates waiting at once**. In the 32-SKU trials no such waits appeared in 11 samples. The shorter runs yielded fewer samples. See the [recorded trials](contention-results.json).
+
+The results identify contention on a shared stock row as a contributor to tail latency. Distributing requests across distinct SKUs is an experimental control. Requests for the same physical stock still use the atomic update to prevent overselling.
+
 ## Operations
 
 The API provides separate liveness and database readiness endpoints at `/health/live` and `/health/ready`. The `Inventory.Reservations` .NET meter records request counts and durations by HTTP status for collection by a compatible listener. The Docker image accepts a PostgreSQL connection string via `ConnectionStrings__Inventory`. Initialize an external database with [schema.sql](schema.sql) before starting the container. The current benchmark was run locally.
