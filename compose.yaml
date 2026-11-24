@@ -1,0 +1,19 @@
+services:
+  db:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_PASSWORD: inventory
+    volumes:
+      - ./schema.sql:/docker-entrypoint-initdb.d/schema.sql:ro
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "postgres"]
+      interval: 2s
+      retries: 15
+  api:
+    build: .
+    environment:
+      ConnectionStrings__Inventory: Host=db;Username=postgres;Password=inventory;Database=postgres
+    ports: ["127.0.0.1:18081:8080"]
+    depends_on:
+      db:
+        condition: service_healthy

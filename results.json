@@ -1,0 +1,20 @@
+[
+  {
+    "clients": 1,
+    "requests": 450,
+    "requests_per_second": 89.8,
+    "p95_ms": 30.4
+  },
+  {
+    "clients": 8,
+    "requests": 450,
+    "requests_per_second": 455.7,
+    "p95_ms": 40.1
+  },
+  {
+    "clients": 32,
+    "requests": 450,
+    "requests_per_second": 435.7,
+    "p95_ms": 221.1
+  }
+]

@@ -1,0 +1,13 @@
+name: PostgreSQL integration tests
+on: [push, pull_request]
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: docker compose up -d --build
+      - run: python3 verify.py
+      - if: failure()
+        run: docker compose logs
+      - if: always()
+        run: docker compose down
