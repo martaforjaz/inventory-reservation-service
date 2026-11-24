@@ -34,6 +34,16 @@ app.MapGet("/stock/{sku}", async (string sku, NpgsqlDataSource db, CancellationT
         ? Results.Ok(new { sku, remaining }) : Results.NotFound();
 });
 
+app.MapGet("/reservations/{id:guid}", async (Guid id, NpgsqlDataSource db, CancellationToken ct) =>
+{
+    await using var query = db.CreateCommand("SELECT sku, quantity, cancelled FROM reservations WHERE id=$1");
+    query.Parameters.AddWithValue(id);
+    await using var row = await query.ExecuteReaderAsync(ct);
+    return await row.ReadAsync(ct)
+        ? Results.Ok(new { id, sku = row.GetString(0), quantity = row.GetInt32(1), cancelled = row.GetBoolean(2) })
+        : Results.NotFound();
+});
+
 app.MapPost("/reservations/{id:guid}", async (Guid id, Reservation request, NpgsqlDataSource db, CancellationToken ct) =>
 {
     if (id == Guid.Empty || string.IsNullOrWhiteSpace(request.Sku) || request.Quantity < 1)
